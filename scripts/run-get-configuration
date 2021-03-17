@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+cfg_dir=$SNAP_COMMON/server
+if [ -f $cfg_dir/nats.cfg ]; then
+    cat $cfg_dir/nats.cfg
+else
+    echo "ERROR: $cfg_dir/nats.cfg not found"
+fi
+

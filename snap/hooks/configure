@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Copyright 2020 Canonical Ltd.  All rights reserved.
+#
+
+cfg_dir=$SNAP_COMMON/server
+snapctl stop ${SNAP_NAME}
+
+if [ ! -f $cfg_dir/nats.cfg ]; then
+    echo 'Setting NATS Server default configuration'
+    mkdir -p $cfg_dir
+    echo 'listen: 127.0.0.1:4222' > $cfg_dir/nats.cfg
+else
+    echo 'Using existing NATS Server configuration'
+fi
+
+snapctl start --enable ${SNAP_NAME}

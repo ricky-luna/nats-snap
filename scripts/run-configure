@@ -1,0 +1,22 @@
+#!/bin/bash
+
+exit_code_failure=1
+
+# Catch missing required arugments
+num_required_args=1
+if [ "$#" -ne $num_required_args ]; then
+    echo "ERROR: Requies $num_required_args arguments"
+    exit $exit_code_failure
+fi
+
+snapctl stop ${SNAP_NAME}
+
+# Set new config
+cfg_dir=$SNAP_COMMON/server
+rm -f $cfg_dir/nats.cfg
+cfg_str=$( echo "listen: $1" )
+echo "Setting new config: $cfg_str"
+echo "$cfg_str" > $cfg_dir/nats.cfg
+
+# Restart NATS Server
+snapctl start ${SNAP_NAME}

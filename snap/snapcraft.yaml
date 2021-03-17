@@ -1,4 +1,4 @@
-name: nats
+name: everactive-nats
 version: 2.1.9
 summary: A simple, secure and high performance open source messaging system
 description: |
@@ -9,9 +9,19 @@ grade: stable
 
 apps:
   server:
-    daemon: simple
     command: bin/start-nats.sh
+    daemon: simple
     plugs: [network-bind]
+
+  configure:
+    command: bin/run-configure
+
+  get-configuration:
+    command: bin/run-get-configuration
+
+hooks:
+  configure:
+    plugs: [network]
 
 parts:
   nats:
@@ -37,5 +47,6 @@ parts:
     source: scripts
     organize:
       start-nats.sh: bin/start-nats.sh
+      'run-*': bin/
     stage:
-    - bin/start-nats.sh
+    - bin/*
